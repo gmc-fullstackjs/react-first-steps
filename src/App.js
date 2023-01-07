@@ -1,6 +1,6 @@
 import { Component, useState } from 'react';
 import './App.css';
-import Form from './components/Form';
+// import Form from './components/Form';
 
 
 
@@ -71,10 +71,57 @@ class App2 extends Component {
 }
 
 
+function Hello() {
+  return <div>
+    You are authenticated
+  </div>
+}
+
 
 function App() {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  function handleLogin(e) {
+    e.preventDefault()
+    if (email === 'admin@gmail.com' && password === 'admin') {
+      setIsAuthenticated(true)
+    }
+  }
+
   return <div>
-    <Form />
+    {
+      isAuthenticated ?
+        <div>
+          <Hello />
+        </div>
+        : <form>
+          <div className="form-group">
+            <label >Email address</label>
+            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
+
+              onChange={e => {
+                setEmail(e.target.value)
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label >Password</label>
+            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"
+              onChange={e => {
+                setPassword(e.target.value)
+              }}
+            />
+          </div>
+
+          <button className="btn btn-primary"
+            onClick={handleLogin}
+          >Login</button>
+        </form>
+    }
   </div>
 }
 

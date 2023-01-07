@@ -1,25 +1,24 @@
 import React from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 function Form() {
-    const [username, setUsername] = useState('')
-    function printUsername(e) {
-        e.preventDefault()
-        alert(username)
-    }
-    return <form className='form'>
-        <label>Username</label>
-        <input className='form-control m-2'
-            onChange={(e) => {
-                setUsername(e.target.value)
-            }}
-            value={username}
-        />
-        <button className='btn btn-primary m-2' onClick={printUsername}>Print Username</button>
-        <p>
-            User is: {username}
-        </p>
-    </form>;
+    // const [username, setUsername] = useState('')
+    // function printUsername(e) {
+    //     e.preventDefault()
+    //     alert(username)
+    // }
+    return <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+        </div>
+
+        <button class="btn btn-primary">Login</button>
+    </form>
 }
 
 export default Form;
