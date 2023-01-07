@@ -1,25 +1,50 @@
-import logo from './logo.svg';
 import './App.css';
 
+// import Card from './components/Card/Card'
+// import cards from './data/cards'
+import TableItem from './components/TableItem';
+// import cards from './data/cards';
+import pokemons from './data/pokemon';
+
+// function App() {
+
+//   console.log(cards)
+//   return (
+//     <div className="App">
+//       {
+//         cards.map((card) => {
+//           return <Card name={card.name} image={card.image} type={card.type} >
+
+//           </Card>
+//         })
+//       }
+
+
+//     </div>
+//   );
+// }
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <div className='App'>
+    <table className='table'>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {
+          pokemons.map(p => {
+            return <TableItem id={p.id} name={p.name} type={p.type} />
+          })
+        }
+
+      </tbody>
+    </table>
+  </div>
 }
 
 export default App;
