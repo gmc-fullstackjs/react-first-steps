@@ -1,49 +1,80 @@
+import { Component, useState } from 'react';
 import './App.css';
+import Form from './components/Form';
 
-// import Card from './components/Card/Card'
-// import cards from './data/cards'
-import TableItem from './components/TableItem';
-// import cards from './data/cards';
-import pokemons from './data/pokemon';
+
 
 // function App() {
 
-//   console.log(cards)
-//   return (
-//     <div className="App">
-//       {
-//         cards.map((card) => {
-//           return <Card name={card.name} image={card.image} type={card.type} >
-
-//           </Card>
-//         })
-//       }
+//   const [count, setCount] = useState(0)
 
 
-//     </div>
-//   );
+//   function inc() {
+//     setCount(count + 1)
+//     console.log("Count incremented ", count)
+//   }
+
+//   console.log(count)
+
+
+
+//   return <div>
+//     <p>You clicked me {count}</p>
+//     <button className='btn btn-primary'
+//       onClick={inc}
+//     >
+//       Increment
+//     </button>
+//   </div>
 // }
+
+
+class App2 extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      count: 0
+    }
+
+
+
+    // To pass this object to function
+    this.inc = this.inc.bind(this)
+  }
+
+
+  inc() {
+
+    // Don't mutate state direclty
+    // this.state.count++
+
+    // Update the DOM based on sate change
+    this.setState({
+      count: this.state.count + 1
+    })
+    console.log("Count incremented ", this.state.count)
+  }
+
+
+
+  render() {
+    return <div>
+      <p>You clicked me {this.state.count}</p>
+      <button className='btn btn-primary'
+        onClick={this.inc}
+      >
+        Increment
+      </button>
+    </div>
+  }
+}
+
+
+
 function App() {
-  return <div className='App'>
-    <table className='table'>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Type</th>
-        </tr>
-      </thead>
-
-      <tbody>
-
-        {
-          pokemons.map(p => {
-            return <TableItem id={p.id} name={p.name} type={p.type} />
-          })
-        }
-
-      </tbody>
-    </table>
+  return <div>
+    <Form />
   </div>
 }
 
