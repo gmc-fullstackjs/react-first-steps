@@ -1,127 +1,66 @@
-import { Component, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-// import Form from './components/Form';
+import axios from 'axios'
+import PokemonCard from './components/Pokemon/PokemonCard';
+import PokemonDetails from './components/Pokemon/PokemonDetails';
 
 
-
-// function App() {
-
-//   const [count, setCount] = useState(0)
-
-
-//   function inc() {
-//     setCount(count + 1)
-//     console.log("Count incremented ", count)
-//   }
-
-//   console.log(count)
-
-
-
-//   return <div>
-//     <p>You clicked me {count}</p>
-//     <button className='btn btn-primary'
-//       onClick={inc}
-//     >
-//       Increment
-//     </button>
-//   </div>
-// }
-
-
-class App2 extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      count: 0
-    }
-
-
-
-    // To pass this object to function
-    this.inc = this.inc.bind(this)
-  }
-
-
-  inc() {
-
-    // Don't mutate state direclty
-    // this.state.count++
-
-    // Update the DOM based on sate change
-    this.setState({
-      count: this.state.count + 1
-    })
-    console.log("Count incremented ", this.state.count)
-  }
-
-
-
-  render() {
-    return <div>
-      <p>You clicked me {this.state.count}</p>
-      <button className='btn btn-primary'
-        onClick={this.inc}
-      >
-        Increment
-      </button>
-    </div>
-  }
-}
-
-
-function Hello() {
-  return <div>
-    You are authenticated
-  </div>
-}
 
 
 function App() {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [pokemons, setPokemons] = useState([])
+  const [selectedPokemonName, setSelectedPokemonName] = useState(undefined)
+  const [pokemon, setPokemon] = useState(undefined)
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  // Get all pokemons
+  useEffect(() => {
+    console.log("COMPONENT MOUNTED OR UPDATED")
+    axios.get("https://pokeapi.co/api/v2/pokemon?limit=9")
+      .then(function (response) {
+        // handle success
+        setPokemons(response.data.results)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }, [])
 
-  function handleLogin(e) {
-    e.preventDefault()
-    if (email === 'admin@gmail.com' && password === 'admin') {
-      setIsAuthenticated(true)
+  useEffect(() => {
+    if (selectedPokemonName) {
+      axios.get(`https://pokeapi.co/api/v2/pokemon/${selectedPokemonName}/`)
+        .then(function (response) {
+          // handle success
+          console.log(response.data);
+          setPokemon(response.data)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
     }
+  }, [selectedPokemonName])
+
+  function handleSelectPokemon(name) {
+    setSelectedPokemonName(name)
+
   }
 
-  return <div>
-    {
-      isAuthenticated ?
-        <div>
-          <Hello />
-        </div>
-        : <form>
-          <div className="form-group">
-            <label >Email address</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
 
-              onChange={e => {
-                setEmail(e.target.value)
-              }}
-            />
-          </div>
-          <div className="form-group">
-            <label >Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"
-              onChange={e => {
-                setPassword(e.target.value)
-              }}
-            />
-          </div>
 
-          <button className="btn btn-primary"
-            onClick={handleLogin}
-          >Login</button>
-        </form>
-    }
+
+  return <div className='App'>
+    <h1>My Pokedex</h1>
+    <ul className='pokemons-list'>
+      {
+        selectedPokemonName ? <PokemonDetails pokemon={pokemon} handleSelectPokemon={handleSelectPokemon} /> :
+          pokemons.map((p, idx) => {
+            return <PokemonCard name={p.name} url={p.url} handleSelectPokemon={handleSelectPokemon} key={idx} />
+          })
+      }
+    </ul>
+
   </div>
 }
 
