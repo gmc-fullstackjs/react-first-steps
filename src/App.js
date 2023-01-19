@@ -12,14 +12,20 @@ function App() {
   const [pokemons, setPokemons] = useState([])
   const [selectedPokemonName, setSelectedPokemonName] = useState(undefined)
   const [pokemon, setPokemon] = useState(undefined)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Get all pokemons
   useEffect(() => {
-    console.log("COMPONENT MOUNTED OR UPDATED")
+    setIsLoading(true)
     axios.get("https://pokeapi.co/api/v2/pokemon?limit=9")
-      .then(function (response) {
+      .then(async function (response) {
         // handle success
+        await new Promise(resolve => {
+          setTimeout(resolve, 2000)
+        })
         setPokemons(response.data.results)
+        setIsLoading(false)
+
       })
       .catch(function (error) {
         // handle error
@@ -29,11 +35,13 @@ function App() {
 
   useEffect(() => {
     if (selectedPokemonName) {
+      setIsLoading(true)
       axios.get(`https://pokeapi.co/api/v2/pokemon/${selectedPokemonName}/`)
         .then(function (response) {
           // handle success
           console.log(response.data);
           setPokemon(response.data)
+          setIsLoading(false)
         })
         .catch(function (error) {
           // handle error
@@ -52,14 +60,19 @@ function App() {
 
   return <div className='App'>
     <h1>My Pokedex</h1>
-    <ul className='pokemons-list'>
-      {
+
+    {
+      isLoading ? <>Loading ...</> :
         selectedPokemonName ? <PokemonDetails pokemon={pokemon} handleSelectPokemon={handleSelectPokemon} /> :
-          pokemons.map((p, idx) => {
-            return <PokemonCard name={p.name} url={p.url} handleSelectPokemon={handleSelectPokemon} key={idx} />
-          })
-      }
-    </ul>
+          <ul className='pokemons-list'>
+            {
+              pokemons.map((p, idx) => {
+                return <PokemonCard name={p.name} url={p.url} handleSelectPokemon={handleSelectPokemon} key={idx} />
+              })
+            }
+          </ul>
+
+    }
 
   </div>
 }
