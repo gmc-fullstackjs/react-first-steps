@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios'
 import PokemonCard from './components/Pokemon/PokemonCard';
 import PokemonDetails from './components/Pokemon/PokemonDetails';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
 
 
 function PokemonList() {
@@ -44,5 +44,60 @@ function App() {
     </Routes>
   </div>
 }
+
+
+// const Home = () => {
+//   return <div>
+//     Home page
+//   </div>
+// }
+
+
+// const Login = () => {
+
+//   return <div>
+//     Login page
+//   </div>
+// }
+
+
+// const Contact = () => {
+//   return <div>
+//     Contact page
+//   </div>
+// }
+
+
+// const User = (props) => {
+//   const params = useParams()
+//   const location = useLocation()
+//   // console.log(params)
+//   console.log(location)
+
+//   return <div>
+//     Users
+//   </div>
+// }
+
+// function App() {
+//   return <div className='App'>
+//     <div>
+//       <Link to={"/"} >Go to home</Link>
+//       {/* <a href='/'>Go to home</a> */}
+//       <Link to={"/login"}>Go to Login</Link>
+//       <Link to={"/contact"}>Go to contact</Link>
+//       <Link to={"/users/1"}>User 1</Link>
+//       <Link to={"/users/2"}>User 2</Link>
+
+
+//     </div>
+//     <Routes>
+//       <Route path='/' element={<Home />} />
+//       <Route path='/login' element={<Login />} />
+//       <Route path='/contact' element={<Contact />} />
+//       <Route path='/users/:id' element={<User />} />
+//     </Routes>
+//   </div>
+// }
 
 export default App;
