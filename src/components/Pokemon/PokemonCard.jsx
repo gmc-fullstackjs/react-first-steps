@@ -1,14 +1,13 @@
 import React from 'react';
 import './PokemonCard.css'
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function PokemonCard({ name, handleSelectPokemon }) {
-    // function handleGetPokemonDetails() {
+function PokemonCard({ name }) {
 
-    // }
+    const navigate = useNavigate()
 
     return <div className='card' onClick={() => {
-        handleSelectPokemon(name)
+        navigate(`/details/${name}`)
     }}>
         {name}
     </div>;

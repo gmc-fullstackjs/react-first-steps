@@ -3,26 +3,18 @@ import './App.css';
 import axios from 'axios'
 import PokemonCard from './components/Pokemon/PokemonCard';
 import PokemonDetails from './components/Pokemon/PokemonDetails';
+import { Route, Routes } from 'react-router-dom';
 
 
-
-
-function App() {
-
+function PokemonList() {
   const [pokemons, setPokemons] = useState([])
-  const [selectedPokemonName, setSelectedPokemonName] = useState(undefined)
-  const [pokemon, setPokemon] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
-
-  // Get all pokemons
+  //   // Get all pokemons
   useEffect(() => {
     setIsLoading(true)
     axios.get("https://pokeapi.co/api/v2/pokemon?limit=9")
       .then(async function (response) {
         // handle success
-        await new Promise(resolve => {
-          setTimeout(resolve, 2000)
-        })
         setPokemons(response.data.results)
         setIsLoading(false)
 
@@ -33,47 +25,23 @@ function App() {
       })
   }, [])
 
-  useEffect(() => {
-    if (selectedPokemonName) {
-      setIsLoading(true)
-      axios.get(`https://pokeapi.co/api/v2/pokemon/${selectedPokemonName}/`)
-        .then(function (response) {
-          // handle success
-          console.log(response.data);
-          setPokemon(response.data)
-          setIsLoading(false)
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
+  return <ul className='pokemons-list'>
+    {
+      isLoading ? <>Loading ...</> : pokemons.map((p, idx) => {
+        return <PokemonCard name={p.name} url={p.url} key={idx} />
+      })
     }
-  }, [selectedPokemonName])
+  </ul>
+}
 
-  function handleSelectPokemon(name) {
-    setSelectedPokemonName(name)
-
-  }
-
-
-
+function App() {
 
   return <div className='App'>
-    <h1>My Pokedex</h1>
 
-    {
-      isLoading ? <>Loading ...</> :
-        selectedPokemonName ? <PokemonDetails pokemon={pokemon} handleSelectPokemon={handleSelectPokemon} /> :
-          <ul className='pokemons-list'>
-            {
-              pokemons.map((p, idx) => {
-                return <PokemonCard name={p.name} url={p.url} handleSelectPokemon={handleSelectPokemon} key={idx} />
-              })
-            }
-          </ul>
-
-    }
-
+    <Routes>
+      <Route path='/' element={<PokemonList />} />
+      <Route path='/details/:name' element={<PokemonDetails />} />
+    </Routes>
   </div>
 }
 
